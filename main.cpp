@@ -20,8 +20,10 @@ int main () {
            "#Plese enter coefficients a, b, c:\n");
     double a = 0, b = 0, c = 0;
 
-    if (scanf("%lg %lg %lg", &a, &b, &c) == 3) {
+    if (scanf("%lg %lg %lg", &a, &b, &c) != 3)
+        printf ("Failed input! Please enter numbers\n");
 
+    else {
         double x1 = 0, x2 = 0;
         int num_roots = SolveSquare(a, b, c, &x1, &x2);
 
@@ -40,7 +42,6 @@ int main () {
                 return 1;
         }
     }
-    printf ("Failed input! Please enter numbers\n");
 }
 
 //---------------------------------------------------------
@@ -71,16 +72,16 @@ int SolveSquare (double a, double b, double c, double* x1, double* x2) {
         return 1;
     }
 
-    else if (isMoreZero (Discr)) {
+    if (isMoreZero (Discr)) {
         *x1 = (-b + sqrt(Discr)) / (2 * a);
         *x2 = (-b - sqrt(Discr)) / (2 * a);
         return 2;
     }
-    else /* (Discr < 0) */ {
-        printf ("No real roots\n");
-        return 0;
-        }
-    }
+    /* (Discr < 0) */
+    printf ("No real roots\n");
+    return 0;
+}
+
 
 //---------------------------------------------------------
 // This function solves Linear Equation ax + b = 0
@@ -100,9 +101,8 @@ int SolveLinear (double a, double b, double* x1) {
             return INF_ROOTS;
         return 0; /* b != 0 */
     }
-    else /* a != 0 */
-        *x1 = -b / a;
-        return 1;
+    *x1 = -b / a;  /* a != 0 */
+    return 1;
 }
 
 //---------------------------------------------------------
