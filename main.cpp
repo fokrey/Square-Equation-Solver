@@ -9,7 +9,7 @@ const double EPSILON   =  0.000001;
 
 int SolveSquare (double, double, double, double*, double*);
 int SolveLinear (double, double, double*);
-int comoare     (double, double);
+int compare     (double, double);
 int isZero      (double);
 int isMoreZero  (double);
 
