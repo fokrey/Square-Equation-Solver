@@ -45,12 +45,13 @@ int main () {
 }
 
 //---------------------------------------------------------
-// This function solves Square Equation ax^2 + bx + c = 0
-// a  The first coefficient
-// b  The second coefficient
-// c  The third coefficient
-// x1 The pointer to the first root
-// x2 The pointer to the second root
+/** \brief This function solves Square Equation \f$ ax^2 + bx + c = 0 \f$
+    \param [in] a  The first coefficient
+    \param [in] b  The second coefficient
+    \param [in] c  The third coefficient
+    \param x1 The pointer to the first root
+    \param x2 The pointer to the second root
+    \return the number of roots */
 //---------------------------------------------------------
 
 int SolveSquare (double a, double b, double c, double* x1, double* x2) {
@@ -84,10 +85,11 @@ int SolveSquare (double a, double b, double c, double* x1, double* x2) {
 
 
 //---------------------------------------------------------
-// This function solves Linear Equation ax + b = 0
-// a The first  coefficient
-// b The second coefficient
-// x1 The pointer to the root
+/** \brief This function solves Linear Equation \f$ ax + b = 0 \f$
+    \param [in] a The first  coefficient
+    \param [in] b The second coefficient
+    \param x1 The pointer to the root
+    \return the number of roots */
 //---------------------------------------------------------
 
 int SolveLinear (double a, double b, double* x1) {
@@ -106,13 +108,13 @@ int SolveLinear (double a, double b, double* x1) {
 }
 
 //---------------------------------------------------------
-// This function compares two given numbers of double type
-// a The first  given number
-// b The second given number
-// EPSILON accuracy
-// returns 1 if a >  b;
-//         0 if a == b;
-//        -1 if a <  b
+/** \brief This function compares two given numbers of double type
+//  \param [in] a The first  given number
+//  \param [in] b The second given number
+//  \param EPSILON accuracy
+//  \return 1 if a >  b,
+           0 if a == b,
+           1 if a <  b */
 //---------------------------------------------------------
 
 int compare (double a, double b) {
@@ -127,10 +129,10 @@ int compare (double a, double b) {
 }
 
 //---------------------------------------------------------
-// This function compares the number of double type with zero in epsilon accuracy
-// a The given number
-// EPSILON accuracy
-// returns 1, if the given number equals zero with said accuracy, 0 if not
+/** \brief This function compares the number of double type with zero in epsilon accuracy
+    \param a The given number
+    \param EPSILON accuracy
+    \return 1, if the given number equals zero with said accuracy, 0 if not */
 //---------------------------------------------------------
 
 int isZero (double a) {
@@ -142,10 +144,10 @@ int isZero (double a) {
 }
 
 //---------------------------------------------------------
-// This function compares the number of double type with zero in epsilon accuracy
-// a The given number
-// EPSILON accuracy
-// returns 1 if the given number is more zero with said accuracy, 0 if not
+/** \brief This function compares the number of double type with zero in epsilon accuracy
+    \param a The given number
+    \param EPSILON accuracy
+    \return 1 if the given number is more zero with said accuracy, 0 if not */
 //---------------------------------------------------------
 
 int isMoreZero (double a) {
