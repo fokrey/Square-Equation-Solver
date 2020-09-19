@@ -1,17 +1,23 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
+#include <cstdio>
+#include <cmath>
+#include <cassert>
 
-const int    INF_ROOTS = -1;
+enum CODE_RETURN {
+    INF_ROOTS = -1,
+    NO_ROOTS  =  0,
+    ONE_ROOT,
+    TWO_ROOTS,
+};
 const double EPSILON   =  0.000001;
 
 // All function declaration
 
-int SolveSquare (double, double, double, double*, double*);
-int SolveLinear (double, double, double*);
-int compare     (double, double);
-int isZero      (double);
-int isMoreZero  (double);
+int SolveSquare  (double a, double b, double c, double *x1, double *x2);
+int SolveLinear  (double a, double b, double *x1);
+int compare      (double left, double right);
+bool isZero      (double number);
+int show_result  (double a, double b, double c);
+char get_answer  ();
 
 // End of declaration
 
@@ -20,28 +26,8 @@ int main () {
            "#Plese enter coefficients a, b, c:\n");
     double a = 0, b = 0, c = 0;
 
-    if (scanf("%lg %lg %lg", &a, &b, &c) != 3)
-        printf ("Failed input! Please enter numbers\n");
-
-    else {
-        double x1 = 0, x2 = 0;
-        int num_roots = SolveSquare(a, b, c, &x1, &x2);
-
-        switch (num_roots) {
-            case 0:
-                printf("No solution\n");
-                break;
-            case 1:
-                printf("x = %+lg\n", x1);
-                break;
-            case 2:
-                printf("x1 = %+lg, x2 = %+lg", x1, x2);
-                break;
-            case INF_ROOTS:
-                printf("Infinite number of solution\n");
-                return 1;
-        }
-    }
+    show_result (a, b, c);
+    return 0;
 }
 
 //---------------------------------------------------------
@@ -55,32 +41,31 @@ int main () {
 //---------------------------------------------------------
 
 int SolveSquare (double a, double b, double c, double* x1, double* x2) {
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(isfinite(c));
+    assert(std::isfinite(a));
+    assert(std::isfinite(b));
+    assert(std::isfinite(c));
 
-    assert(x1 != NULL);
-    assert(x2 != NULL);
+    assert(x1 != nullptr);
+    assert(x2 != nullptr);
     assert(x1 != x2);
 
     if (isZero(a))
         return SolveLinear (b, c, x1);
 
-    /* if (a != 0) */
+    // if (a != 0)
     double Discr = b * b - 4 * a * c;
-    if (Discr == 0) {
+    if (isZero(Discr)) {
         *x1 = *x2 = -b / (2 * a);
-        return 1;
+        return ONE_ROOT;
     }
 
-    if (isMoreZero (Discr)) {
-        *x1 = (-b + sqrt(Discr)) / (2 * a);
-        *x2 = (-b - sqrt(Discr)) / (2 * a);
-        return 2;
+    if (Discr > EPSILON) { // Discr > 0
+        double sqrt_D = sqrt (Discr);
+        *x1 = (-b + sqrt_D) / (2 * a);
+        *x2 = (-b - sqrt_D) / (2 * a);
+        return TWO_ROOTS;
     }
-    /* (Discr < 0) */
-    printf ("No real roots\n");
-    return 0;
+    return NO_ROOTS;
 }
 
 
@@ -94,16 +79,16 @@ int SolveSquare (double a, double b, double c, double* x1, double* x2) {
 
 int SolveLinear (double a, double b, double* x1) {
 
-    assert(isfinite(a));
-    assert(isfinite(b));
-    assert(x1 != NULL);
+    assert(std::isfinite(a));
+    assert(std::isfinite(b));
+    assert(x1 != nullptr);
 
     if (isZero (a)) {
         if (isZero (b))
             return INF_ROOTS;
-        return 0; /* b != 0 */
+        return 0; // b != 0
     }
-    *x1 = -b / a;  /* a != 0 */
+    *x1 = -b / a; // a != 0
     return 1;
 }
 
@@ -117,15 +102,15 @@ int SolveLinear (double a, double b, double* x1) {
            1 if a <  b */
 //---------------------------------------------------------
 
-int compare (double a, double b) {
-    assert(isfinite(a));
-    assert(isfinite(b));
+int compare (double left, double right) {
+    assert(std::isfinite(left));
+    assert(std::isfinite(right));
 
-    if (fabs(a - b) <= EPSILON) /* a == b */
+    if (fabs(left - right) <= EPSILON) // left == right
         return 0;
-    if (a - b > 2 * EPSILON) /* a > b */
+    if (left - right  >  EPSILON) // left > right
         return 1;
-    return -1; /* a < b */
+    return -1; // left < right
 }
 
 //---------------------------------------------------------
@@ -134,27 +119,47 @@ int compare (double a, double b) {
     \param EPSILON accuracy
     \return 1, if the given number equals zero with said accuracy, 0 if not */
 //---------------------------------------------------------
+bool isZero (double number) {
+    assert(std::isfinite(number));
 
-int isZero (double a) {
-    assert(isfinite(a));
-
-    if (compare (a, EPSILON) == 0) /* if a == b */
-        return 1;
-    return 0; /* a != b */
+    return compare (number, EPSILON) == 0;
 }
 
-//---------------------------------------------------------
-/** \brief This function compares the number of double type with zero in epsilon accuracy
-    \param a The given number
-    \param EPSILON accuracy
-    \return 1 if the given number is more zero with said accuracy, 0 if not */
-//---------------------------------------------------------
+int show_result (double a, double b, double c) {
 
-int isMoreZero (double a) {
-    assert(isfinite(a));
+    while (scanf("%lg %lg %lg", &a, &b, &c) == 3) {
+        double x1 = 0, x2 = 0;
+        int num_roots = SolveSquare(a, b, c, &x1, &x2);
 
-    if (compare(a, EPSILON) == 1) /* a > EPS */
-        return 1;
-    return 0;
+        switch (num_roots) {
+            case NO_ROOTS:
+                printf("No solution.\n");
+                break;
+            case ONE_ROOT:
+                printf("x = %-lg\n", x1);
+                break;
+            case TWO_ROOTS:
+                printf("x1 = %-lg, x2 = %-lg\n", x1, x2);
+                break;
+            case INF_ROOTS:
+                printf("Infinite number of solution.\n");
+                return 1;
+        }
+        printf("Do you want to continue? "
+               "Enter new coefficients a, b, c if yes, n if no\n");
+    }
+
+    if (get_answer () == 'n')
+        return 0;
+
+    if (scanf("%lg %lg %lg", &a, &b, &c) != 3)
+        printf ("Failed input!\n");
 }
+
+char get_answer () {
+    char in = 0;
+    scanf ("%c", &in);
+    return in;
+}
+
 
