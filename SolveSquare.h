@@ -10,7 +10,7 @@ enum CODE_RETURN {
     ONE_ROOT,
     TWO_ROOTS,
 };
-const double EPSILON   =  1e-5;
+const double EPSILON   =  1e-6;
 
 
 // All function declaration
