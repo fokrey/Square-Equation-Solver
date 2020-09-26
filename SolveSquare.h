@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cmath>
 #include <cassert>
+#include <cstdlib>
 
 enum CODE_RETURN {
     INF_ROOTS = -1,
