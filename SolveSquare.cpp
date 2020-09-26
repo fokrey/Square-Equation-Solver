@@ -1,5 +1,7 @@
 #include "SolveSquare.h"
 
+int failed_test = 0;
+
 //---------------------------------------------------------
 /** \brief This function solves Square Equation \f$ ax^2 + bx + c = 0 \f$
     \param [in] a  The first coefficient
@@ -120,91 +122,74 @@ void show_result (double a, double b, double c) {
     }
 }
 
-void Test_SolveSquare () {
-    double r1 = rand ();
-    double r2 = rand ();
-    double x1 = r1, x2 = r2;
-    if (SolveSquare (0, 0, 0, &x1, &x2) != INF_ROOTS && x1 != r1 && x2 != r2)
-        printf ("Test 1 (a = 0, b = 0, c = 0) failed\n");
-    else
-        printf ("Test 1 OK\n");
-    if (SolveSquare (0, 0, 7, &x1, &x2) != NO_ROOTS && x1 != r1 && x2 != r2)
-        printf ("Test 2 (a = 0, b = 0, c = 7) failed\n");
-    else
-        printf ("Test 2 OK\n");
-    if (SolveSquare (0, 9, 90, &x1, &x2) != ONE_ROOT && x1 != -10 && x2 != r2)
-        printf ("Test 3 (a = 0, b = 9, c = 90) failed\n");
-    else
-        printf ("Test 3 OK\n");
-    if (SolveSquare (7, 8, 9, &x1, &x2) != NO_ROOTS && x1 != r2 && x2 != r2)
-        printf ("Test 4 (a = 7, b = 8, c = 9) failed\n");
-    else
-        printf ("Test 4 OK\n");
-    if (SolveSquare (1, -2, 1, &x1, &x2) != ONE_ROOT && x1 != 1 && x2 != r2)
-        printf ("Test 5 (a = 1, b = -2, c = 1) failed\n");
-    else
-        printf ("Test 5 OK\n");
-    if (SolveSquare (1, 2, 1, &x1, &x2) != ONE_ROOT && x1 != -1 && x2 != r2)
-        printf ("Test 5 (a = 1, b = 2, c = 1) failed\n");
-    else
-        printf ("Test 5 OK\n");
-    if (SolveSquare (1, 0, 0, &x1, &x2) != ONE_ROOT && x1 != 0 && x2 != r2)
-        printf ("Test 6 (a = 1, b = 0, c = 0 failed\n");
-    else
-        printf ("Test 6 OK\n");
-    if (SolveSquare (0, 1, 0, &x1, &x2) != ONE_ROOT && x1 != 0 && x2 != r2)
-        printf ("Test 7 (a = 0, b = 1, c = 0) failed\n");
-    else
-        printf ("Test 7 OK\n");
-    if (SolveSquare (0, 0, 7, &x1, &x2) != NO_ROOTS && x1 != r1 && x2 != r2)
-        printf ("Test 8 (a = 0, b = 0, c = 7) failed\n");
-    else
-        printf ("Test 8 OK\n");
-    if (SolveSquare (1, 0, -9, &x1, &x2) != 2 && x1 != 3 && x2 != -3)
-        printf ("Test 9 (a = 1, b = 0, c = -9) failed\n");
-    else
-        printf ("Test 9 OK\n");
+void partial_cases_test () {
+
+    Test_SolveSquare (0, 0, 0);
+    Test_SolveSquare (0, 0, 7);
+    Test_SolveSquare (0, 9, 90);
+    Test_SolveSquare (7, 8 ,9);
+    Test_SolveSquare (1, -2, 1);
+    Test_SolveSquare (0, 1, 0);
+    Test_SolveSquare (1, 0, -9);
 
 }
 
-void test () {
+void random_cases_test () {
+    Test_SolveSquare (rand (), rand (), rand ());
+}
+
+void Test_SolveSquare (double a, double b, double c) {
     double r1 = rand (), r2 = rand ();
-    double x1 = r1, x2 = r2;
-    double a = rand (), b = rand (), c = rand ();
+    double x1 = r1, x2 = r2;             // Poison
     int num_roots = SolveSquare (a, b, c, &x1, &x2);
     int check = 0;
-
     if (num_roots == TWO_ROOTS ) {
         if (isZero (a * x1 * x1 + b * x1 + c) && isZero (a * x2 * x2 + b * x2 + c));
-            //printf ("TEST TWO_ROOTS OK\n");
-        else
-            printf ("TEST TWO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+        else {
+            printf("TEST TWO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+            failed_test++;
+        }
     }
     if (num_roots == ONE_ROOT) {
-        if (isZero (a * x1 * x1 + b * x1 + c) && x2 == r2);
-            //printf ("TEST ONE_ROOT OK");
-        else
-            printf ("TEST ONE_ROOT (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+        if (isZero (a * x1 * x1 + b * x1 + c) && (x2 == x1 || x2 == r2));
+        else {
+            printf("TEST ONE_ROOT (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+            failed_test++;
+        }
     }
     if (num_roots == NO_ROOTS) {
-        if (b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2);
-            //printf ("TEST NO_ROOTS  OK\n");
+        if ((b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2) ||(isZero (a) && isZero (b) && !isZero (c)));
         else
             printf ("TEST NO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
     }
     if (num_roots == INF_ROOTS) {
-       for (int i = 0; i < 11; i++) {
-           if (isZero(a * rand() * rand() + b * rand() + c))
-               check = 1;
-           else
-               check = 0;
-       }
-       if (check);
-           //printf ("TEST INF_ROOTS OK\n");
-       else
-           printf ("TEST INF_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+        for (int i = 0; i < 11; i++) {
+            if (isZero (a * rand () * rand () + b * rand () + c))
+                check = 1;
+            else
+                check = 0;
+        }
+        if (check);
+        else {
+            printf("TEST INF_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+            failed_test++;
+        }
     }
-
 }
+
+void run_test () {
+
+    for (int i = 0; i < 1000000; i++)
+        random_cases_test ();
+    partial_cases_test ();
+
+    if (failed_test == 0)
+        printf ("ALL TESTS PASSED!\n");
+    else {
+        printf ("ERROR TEST!\n");
+        exit (EXIT_FAILURE);
+    }
+}
+
 
 
