@@ -110,6 +110,7 @@ void show_result (double a, double b, double c) {
             printf("Failed input\n");
 
         printf("Do you want to continue? y/n\n");
+        
         fflush(stdin);
         if (getchar() == 'y')
             continue;

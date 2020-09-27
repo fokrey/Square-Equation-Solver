@@ -21,7 +21,7 @@ int  SolveSquare        (double a, double b, double c, double *x1, double *x2);
 int  SolveLinear        (double a, double b, double *x1);
 bool isZero             (double number);
 void show_result        (double a, double b, double c);
-bool Test_SolveSquare   (double a, double b, double c);
+int Test_SolveSquare    (double a, double b, double c);
 bool random_cases_test  ();
 int  partial_cases_test ();
 int  run_test           ();
