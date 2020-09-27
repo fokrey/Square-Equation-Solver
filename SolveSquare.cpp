@@ -124,17 +124,17 @@ void show_result (double a, double b, double c) {
 
 int partial_cases_test () {
 
-    int num_failed_tests = 0;
+    int failed_part_cases = 0;
 
-    num_failed_tests += Test_SolveSquare (0, 0, 0);
-    num_failed_tests += Test_SolveSquare (0, 0, 7);
-    num_failed_tests += Test_SolveSquare (0, 9, 90);
-    num_failed_tests += Test_SolveSquare (7, 8, 9);
-    num_failed_tests += Test_SolveSquare (1, -2, 1);
-    num_failed_tests += Test_SolveSquare (0, 1, 0);
-    num_failed_tests += Test_SolveSquare (1, 0, -9);
+    failed_part_cases += Test_SolveSquare (0, 0, 0);
+    failed_part_cases += Test_SolveSquare (0, 0, 7);
+    failed_part_cases += Test_SolveSquare (0, 9, 90);
+    failed_part_cases += Test_SolveSquare (7, 8, 9);
+    failed_part_cases += Test_SolveSquare (1, -2, 1);
+    failed_part_cases += Test_SolveSquare (0, 1, 0);
+    failed_part_cases += Test_SolveSquare (1, 0, -9);
 
-    return num_failed_test;
+    return failed_part_cases;
 
 }
 
@@ -149,24 +149,26 @@ bool Test_SolveSquare (double a, double b, double c) {
     int check = 0;
     if (num_roots == TWO_ROOTS ) {
         if (isZero (a * x1 * x1 + b * x1 + c) && isZero (a * x2 * x2 + b * x2 + c))
-            return failed_test;
+            return 0; // number of failed tests is 0
         else {
             printf("TEST TWO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            return failed_test++;
+            return 1; //number of failed tests is 1
         }
     }
     if (num_roots == ONE_ROOT) {
-        if (isZero (a * x1 * x1 + b * x1 + c) && (x2 == x1 || x2 == r2));
+        if (isZero (a * x1 * x1 + b * x1 + c) && (x2 == x1 || x2 == r2))
+            return 0;
         else {
             printf("TEST ONE_ROOT (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            return failed_test++;
+            return 1;
         }
     }
     if (num_roots == NO_ROOTS) {
-        if ((b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2) ||(isZero (a) && isZero (b) && !isZero (c)));
+        if ((b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2) ||(isZero (a) && isZero (b) && !isZero (c)))
+            return 0;
         else
             printf ("TEST NO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-        return failed_test++;
+        return 1;
     }
     if (num_roots == INF_ROOTS) {
         for (int i = 0; i < 11; i++) {
@@ -175,25 +177,33 @@ bool Test_SolveSquare (double a, double b, double c) {
             else
                 check = 0;
         }
-        if (check);
+        if (check)
+            return 0;
         else {
             printf("TEST INF_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            return failed_test++;
+            return 1;
         }
     }
+    return 1;
 }
 
 int run_test () {
 
-    for (int i = 0; i < 1000000; i++)
-        random_cases_test ();
-    partial_cases_test ();
+    int failed_part_cases = 0;
+    int failed_rand_cases = 0;
+    int num_tests = 1000000;
 
-    if (partial_cases_test == 0)
+    for (int i = 0; i < num_tests; i++)
+        failed_rand_cases += random_cases_test ();
+    failed_part_cases = partial_cases_test ();
+
+    if (failed_rand_cases == 0 && failed_part_cases == 0) {
         printf ("ALL TESTS PASSED!\n");
+        return 0;
+    }
     else {
-        printf ("ERROR TEST!\n");
-        exit (EXIT_FAILURE);
+        printf ("ERROR! %d out of %d TESTS FAILED\n", (failed_rand_cases + failed_part_cases), num_tests);
+        return -1;
     }
 }
 
