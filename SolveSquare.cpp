@@ -1,7 +1,5 @@
 #include "SolveSquare.h"
 
-int failed_test = 0;
-
 //---------------------------------------------------------
 /** \brief This function solves Square Equation \f$ ax^2 + bx + c = 0 \f$
     \param [in] a  The first coefficient
@@ -166,9 +164,10 @@ bool Test_SolveSquare (double a, double b, double c) {
     if (num_roots == NO_ROOTS) {
         if ((b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2) ||(isZero (a) && isZero (b) && !isZero (c)))
             return 0;
-        else
-            printf ("TEST NO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-        return 1;
+        else {
+            printf("TEST NO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+            return 1;
+        }
     }
     if (num_roots == INF_ROOTS) {
         for (int i = 0; i < 11; i++) {
