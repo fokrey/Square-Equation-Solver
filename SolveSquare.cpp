@@ -205,6 +205,3 @@ int run_test () {
         return -1;
     }
 }
-
-
-
