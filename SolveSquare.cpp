@@ -202,7 +202,7 @@ int run_test () {
         return 0;
     }
     else {
-        printf ("ERROR! %d out of %d TESTS FAILED\n", (failed_rand_cases + failed_part_cases), num_tests);
+        printf ("ERROR! %d out of %d TESTS FAILED\n", failed_rand_cases + failed_part_cases, num_tests);
         return -1;
     }
 }
