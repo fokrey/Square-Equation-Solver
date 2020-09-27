@@ -1,12 +1,15 @@
 #include "SolveSquare.h"
 
-int main () {
+#define MILLION 1000000 // for comfortable testing 
 
-    if (run_test () == -1)
-        exit (EXIT_FAILURE);
+int main () {
+    const unsigned long NUM_TESTS = 100 * MILLION;
+
+    if (run_test (NUM_TESTS) == -1)
+        return EXIT_FAILURE;
 
     double a = 0, b = 0, c = 0;
     show_result (a, b, c);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

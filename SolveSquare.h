@@ -24,7 +24,7 @@ void show_result        (double a, double b, double c);
 int Test_SolveSquare    (double a, double b, double c);
 bool random_cases_test  ();
 int  partial_cases_test ();
-int  run_test           ();
+int  run_test           (unsigned long num_tests);
 
 // End of declaration
 

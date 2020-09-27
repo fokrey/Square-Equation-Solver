@@ -110,7 +110,7 @@ void show_result (double a, double b, double c) {
             printf("Failed input\n");
 
         printf("Do you want to continue? y/n\n");
-        
+
         fflush(stdin);
         if (getchar() == 'y')
             continue;
@@ -194,11 +194,10 @@ int Test_SolveSquare (double a, double b, double c) {
     return 0;
 }
 
-int run_test () {
+int run_test (unsigned long num_tests) {
 
     int failed_part_cases = 0;
     int failed_rand_cases = 0;
-    int num_tests = 1000000;
 
     for (int i = 0; i < num_tests; i++)
         failed_rand_cases += random_cases_test ();
