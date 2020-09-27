@@ -38,6 +38,7 @@ int SolveSquare (double a, double b, double c, double* x1, double* x2) {
     return NO_ROOTS;
 }
 
+
 //---------------------------------------------------------
 /** \brief This function solves Linear Equation \f$ ax + b = 0 \f$
     \param [in] a The first  coefficient
@@ -104,18 +105,25 @@ void show_result (double a, double b, double c) {
                 case INF_ROOTS:
                     printf("Infinite number of solution.\n");
             }
+
         } else
             printf("Failed input\n");
-        printf("Do you want to continue? y/n\n");
 
-        char in = '\0';
+        printf("Do you want to continue? y/n\n");
+        fflush(stdin);
+        if (getchar() == 'y')
+            continue;
+        else
+            break;
+
+        /* char in = '\0';
         scanf("%c", &in);
         if (scanf("%c", &in) == 1) {
             if (in == 'y')
                 continue;
             else // in == 'n'
                 break;
-        }
+        } */
     }
 }
 
@@ -139,7 +147,7 @@ bool random_cases_test () {
     return Test_SolveSquare (rand (), rand (), rand ());
 }
 
-bool Test_SolveSquare (double a, double b, double c) {
+int Test_SolveSquare (double a, double b, double c) {
     double r1 = rand (), r2 = rand ();
     double x1 = r1, x2 = r2;             // Poison
     int num_roots = SolveSquare (a, b, c, &x1, &x2);
@@ -182,7 +190,7 @@ bool Test_SolveSquare (double a, double b, double c) {
             return 1;
         }
     }
-    return 1;
+    return 0;
 }
 
 int run_test () {
