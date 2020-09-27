@@ -122,45 +122,51 @@ void show_result (double a, double b, double c) {
     }
 }
 
-void partial_cases_test () {
+int partial_cases_test () {
 
-    Test_SolveSquare (0, 0, 0);
-    Test_SolveSquare (0, 0, 7);
-    Test_SolveSquare (0, 9, 90);
-    Test_SolveSquare (7, 8 ,9);
-    Test_SolveSquare (1, -2, 1);
-    Test_SolveSquare (0, 1, 0);
-    Test_SolveSquare (1, 0, -9);
+    int num_failed_tests = 0;
+
+    num_failed_tests += Test_SolveSquare (0, 0, 0);
+    num_failed_tests += Test_SolveSquare (0, 0, 7);
+    num_failed_tests += Test_SolveSquare (0, 9, 90);
+    num_failed_tests += Test_SolveSquare (7, 8, 9);
+    num_failed_tests += Test_SolveSquare (1, -2, 1);
+    num_failed_tests += Test_SolveSquare (0, 1, 0);
+    num_failed_tests += Test_SolveSquare (1, 0, -9);
+
+    return num_failed_test;
 
 }
 
-void random_cases_test () {
-    Test_SolveSquare (rand (), rand (), rand ());
+bool random_cases_test () {
+    return Test_SolveSquare (rand (), rand (), rand ());
 }
 
-void Test_SolveSquare (double a, double b, double c) {
+bool Test_SolveSquare (double a, double b, double c) {
     double r1 = rand (), r2 = rand ();
     double x1 = r1, x2 = r2;             // Poison
     int num_roots = SolveSquare (a, b, c, &x1, &x2);
     int check = 0;
     if (num_roots == TWO_ROOTS ) {
-        if (isZero (a * x1 * x1 + b * x1 + c) && isZero (a * x2 * x2 + b * x2 + c));
+        if (isZero (a * x1 * x1 + b * x1 + c) && isZero (a * x2 * x2 + b * x2 + c))
+            return failed_test;
         else {
             printf("TEST TWO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            failed_test++;
+            return failed_test++;
         }
     }
     if (num_roots == ONE_ROOT) {
         if (isZero (a * x1 * x1 + b * x1 + c) && (x2 == x1 || x2 == r2));
         else {
             printf("TEST ONE_ROOT (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            failed_test++;
+            return failed_test++;
         }
     }
     if (num_roots == NO_ROOTS) {
         if ((b * b - 4 * a * c < 0 && x1 == r1 && x2 == r2) ||(isZero (a) && isZero (b) && !isZero (c)));
         else
             printf ("TEST NO_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
+        return failed_test++;
     }
     if (num_roots == INF_ROOTS) {
         for (int i = 0; i < 11; i++) {
@@ -172,18 +178,18 @@ void Test_SolveSquare (double a, double b, double c) {
         if (check);
         else {
             printf("TEST INF_ROOTS (a = %lg, b = %lg, c = %lg) FAILED\n", a, b, c);
-            failed_test++;
+            return failed_test++;
         }
     }
 }
 
-void run_test () {
+int run_test () {
 
     for (int i = 0; i < 1000000; i++)
         random_cases_test ();
     partial_cases_test ();
 
-    if (failed_test == 0)
+    if (partial_cases_test == 0)
         printf ("ALL TESTS PASSED!\n");
     else {
         printf ("ERROR TEST!\n");
