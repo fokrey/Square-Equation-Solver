@@ -1,9 +1,9 @@
 #include "SolveSquare.h"
 
-#define MILLION 1000000 // for comfortable testing 
+#define MILLION 1000000 // for comfortable testing
 
 int main () {
-    const unsigned long NUM_TESTS = 100 * MILLION;
+    const unsigned long NUM_TESTS = 10 * MILLION;
 
     if (run_test (NUM_TESTS) == -1)
         return EXIT_FAILURE;

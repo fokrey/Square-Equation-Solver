@@ -1,0 +1,3 @@
+C:/Users/user/Documents/GitHub/Square-Equation-Solver/Square-Equation-Solver/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/user/Documents/GitHub/Square-Equation-Solver/Square-Equation-Solver/cmake-build-debug/CMakeFiles/Square_Equation_Solver.dir
+C:/Users/user/Documents/GitHub/Square-Equation-Solver/Square-Equation-Solver/cmake-build-debug/CMakeFiles/edit_cache.dir
