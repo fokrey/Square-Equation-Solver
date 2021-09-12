@@ -150,8 +150,7 @@ int test_solve_square (double a, double b, double c) {
             return 0;
 
         default: printf ("Invalid number of roots!\n");
-
-        return 0;
+        return 1;
     }
 }
 
