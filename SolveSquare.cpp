@@ -30,8 +30,8 @@ int solve_square (double a, double b, double c, double* x1, double* x2) {
 
 int solve_linear (double a, double b, double* x1) {
 
-    assert(std::isfinite(a));
-    assert(std::isfinite(b));
+    assert(isfinite(a));
+    assert(isfinite(b));
     assert(x1 != nullptr);
 
     if (is_zero (a)) {
@@ -44,7 +44,7 @@ int solve_linear (double a, double b, double* x1) {
 }
 
 bool is_zero (double number) {
-    assert(std::isfinite(number));
+    assert(isfinite(number));
 
     return (fabs (number) <= EPSILON);
 }
