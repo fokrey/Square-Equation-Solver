@@ -1,10 +1,15 @@
 #ifndef SOLVESQUARE_SOLVESQUARE_H
 #define SOLVESQUARE_SOLVESQUARE_H
 
-#include <cstdio>
-#include <cmath>
-#include <cassert>
-#include <cstdlib>
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include <stdlib.h>
+
+//---------------------------------------------------------
+/** \brief Enumerated type CODE_RETURN is used to define the number of roots of the equation
+ * CODE_RETURN equals -1 if the equation has an infinite number of roots */
+//---------------------------------------------------------
 
 enum CODE_RETURN {
     INF_ROOTS = -1,
@@ -12,6 +17,11 @@ enum CODE_RETURN {
     ONE_ROOT  =  1,
     TWO_ROOTS =  2,
 };
+
+//---------------------------------------------------------
+/** \brief Constant EPSILON defines epsilon neighborhood of zero
+ * Numbers belonging to this neighborhood are considered to be zero */
+//---------------------------------------------------------
 
 const double EPSILON = 1e-6;
 
@@ -45,12 +55,20 @@ int  solve_linear       (double a, double b, double *x1);
 bool is_zero            (double number);
 
 //---------------------------------------------------------
-/** \brief This function shows result of operation
+/** \brief This function accepts input data
     \param a The first  coefficient
     \param b The second coefficient
     \param c The third  coefficient */
 //---------------------------------------------------------
-void show_result        (double a, double b, double c);
+void input_data         (double a, double b, double c);
+
+//---------------------------------------------------------
+/** \brief This function shows result of operation
+    \param num_roots The number of roots of the equation
+    \param x1 The first root
+    \param x1 The second root */
+//---------------------------------------------------------
+void show_result        (int num_roots, double x1, double x2);
 
 int  test_solve_square  (double a, double b, double c);
 bool random_cases_test  ();
